@@ -4,25 +4,37 @@ window.onload = function () {
   );
 };
 
-function sendMsg() {
+function replaceValue() {
   const wpNum = document.getElementById('wp_num').value;
+
+  if (wpNum) {
+    wpNum.value = wpNum.value.replace(/[-()]/g, '');
+  }
+}
+
+function sendMsg() {
+  let wpNum = document.getElementById('wp_num').value; // Use let instead of const
   const wpMessage = document.getElementById('wp-message').value;
   const countryCode = document.getElementById('country_code').value;
   const existingError = document.getElementById('error-message');
+
+  if (wpNum) {
+    // Replace characters in the value
+    wpNum = wpNum.replace(/[-()]/g, '');
+  }
 
   if (existingError) {
     existingError.remove();
   }
 
-  // console.log(wpNum);
   if (/^[0-9]{10}$/.test(wpNum)) {
     window.open(`https://wa.me/${countryCode}${wpNum}?text=${wpMessage}`);
   } else {
-    // console.log("Invalid phone number. Please enter 10 digits.");
-    const errorMessage = document.createElement('h3');
-    errorMessage.id = 'error-message';
-    errorMessage.textContent = 'Invalid phone number. Please enter 10 digits.';
-    document.body.appendChild(errorMessage);
+    alert('Please enter Valid number.');
+    // const errorMessage = document.createElement('h3');
+    // errorMessage.id = 'error-message';
+    // errorMessage.textContent = 'Invalid phone number. Please enter 10 digits.';
+    // document.body.appendChild(errorMessage);
   }
 }
 
